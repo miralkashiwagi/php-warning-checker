@@ -1,0 +1,9 @@
+{
+    "startUrl": "https://example.com/",
+    "maxDepth": 1,
+    "sameOriginOnly": true,
+    "timeoutMs": 30000,
+    "denyPatterns": [],
+    "maxPages": 500
+  }
+  
