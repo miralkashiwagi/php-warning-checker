@@ -9,6 +9,20 @@ const TIMEOUT_MS = config.timeoutMs;
 function hasPhpErrors(html: string) {
     return /<b>\s*(Warning|Notice|Fatal error|Parse error)\s*<\/b>/i.test(html);
 }
+// PHPエラーの詳細を抽出する関数
+function extractPhpErrors(html: string): string[] {
+    const errorPattern = /<b>\s*(Warning|Notice|Fatal error|Parse error)\s*<\/b>:\s*(.+?)(?=<br|<\/)/gi;
+    const errors: string[] = [];
+    let match;
+
+    while ((match = errorPattern.exec(html)) !== null) {
+        const errorType = match[1];
+        const errorMessage = match[2];
+        errors.push(`<b>${errorType}</b>: ${errorMessage}`);
+    }
+
+    return errors;
+}
 
 
 // URLリストをファイルから読み込み
@@ -24,8 +38,20 @@ test.describe('Check', () => {
         const html = await page.content();
 
           if (hasPhpErrors(html)) {
+              const errorDetails = extractPhpErrors(html);
               console.log(`⚠️ PHP Error検出: ${url}`);
-              expect(false, `${url} でPHP Errorを検出しました`).toBe(true);
+              errorDetails.forEach(error => {
+                  console.log(`  ${error}`);
+              });
+
+              // Annotationsにのみ詳細を記録
+              test.info().annotations.push({
+                  type: 'error',
+                  description: `${errorDetails.join('\n')}\n-------------\n`
+              });
+
+              // テスト失敗は最小限のメッセージで
+              throw new Error(`${url} でPHP Errorを検出しました`);
           } else {
               console.log(`✅ OK: ${url}`);
           }
