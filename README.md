@@ -2,18 +2,19 @@
 TOPページのURLを渡すと、そこからリンクされているページをクロールして、PHPのWarningやNotice等のエラーが出力されているページを探すPlaywright
 
 # 使い方
-## Playwright の実行
+## 1.Playwright の実行
 1. `npm install`
 2. config.jsonの`startUrl`にサイトのURLを入れる
    - `maxDepth`はお好みで調整(1の場合は`startUrl`にリンクがあるURLのみをチェック)
 3. `npm start`
 4. レポートが自動で開く or `npx playwright show-report` で開くので確認
 
-## レポートの確認
+## 2.レポートの確認
 - URLごとにテストが実行されます
 - エラーが検出されたページは × 、無かったページは ✓ が表示されます
 - × のページのURLを開いて、該当のエラーを確認してください
 
+# 詳しい説明
 ## 設定ファイルの説明
 - "startUrl": サイトのURLを入れてください（TOPページ or リンクを辿る元として使いたいページ）
 - "maxDepth": 通常は1。より多くのページをクロールしたいときは2にしてください。
