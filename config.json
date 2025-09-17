@@ -1,6 +1,6 @@
 {
     "startUrl": "https://example.com/",
-    "maxDepth": 1,
+    "maxDepth": 2,
     "sameOriginOnly": true,
     "timeoutMs": 30000,
     "denyPatterns": [],
